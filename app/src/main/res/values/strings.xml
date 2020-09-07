@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Task</string>
+    <string name="invalid_post">Enter Post Title</string>
+    <string name="postTitle">"Post Titile Reqired "</string>
+</resources>

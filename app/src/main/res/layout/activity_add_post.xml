@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:background="@drawable/round_corner_top"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:padding="@dimen/_10sdp"
+        android:text="Add Post"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/postTitleET"
+        android:padding="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/round_corner_blue"
+        android:layout_height="wrap_content">
+
+    </EditText>
+    <TextView
+        android:layout_width="match_parent"
+        android:text="add Image"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:id="@+id/postImage"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_addimage"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_height="@dimen/_100sdp">
+
+    </ImageView>
+    <Button
+        android:layout_width="match_parent"
+        android:text="sent"
+        android:gravity="center"
+        android:id="@+id/savBtn"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/round_corner_fill"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_height="wrap_content">
+
+    </Button>
+
+</LinearLayout>
+
