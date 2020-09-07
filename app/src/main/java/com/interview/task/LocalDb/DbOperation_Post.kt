@@ -24,7 +24,6 @@ class DbOperation_Post(context: Context?) {
         return inserted > 0
     }
 
-
     @Throws(SQLException::class)
     fun Update(post: PostModel): Boolean {
         val cv = ContentValues()
