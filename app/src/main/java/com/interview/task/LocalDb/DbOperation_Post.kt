@@ -11,6 +11,8 @@ import java.sql.SQLException
 class DbOperation_Post(context: Context?) {
     var context: Context?
     var db: SQLiteDatabase
+    val Table = "USERS"
+    private val DATABASENAME = "SmartWorker.db"
 
     @Throws(SQLException::class)
     fun insert(post: PostModel): Boolean {
@@ -50,21 +52,6 @@ class DbOperation_Post(context: Context?) {
 
 
 
-    fun getImage(id: Int): ByteArray {
-        val cr: Cursor = db.rawQuery(
-            "select * from $Table where ID = $id",
-            null
-        )
-        val result: ByteArray
-        cr.moveToFirst()
-        result = cr.getBlob(cr.getColumnIndex("IMAGE_SRC"))
-        cr.close()
-        return result
-    }
-
-
-
-
     fun delete(id: Int): Int {
         val db_delete = DbOperation_Post(context)
         return db.delete(
@@ -76,10 +63,6 @@ class DbOperation_Post(context: Context?) {
 
 
 
-    companion object {
-        private const val DATABASENAME = "postDb.db"
-        const val Table = "POSTS"
-    }
 
     init {
         val dbase =
