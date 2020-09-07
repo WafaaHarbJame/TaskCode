@@ -69,7 +69,7 @@ class MainActivity : ActivityBase() {
     }
 
 
-    fun getPosts() {
+    private fun getPosts() {
         swipeContainer.isRefreshing = true
         val apiService = getClient()!!.create(ApiInterface::class.java)
         val apiInterface = apiService.getPosts()

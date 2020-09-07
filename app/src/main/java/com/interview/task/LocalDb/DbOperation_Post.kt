@@ -12,7 +12,7 @@ class DbOperation_Post(context: Context?) {
     var context: Context?
     var db: SQLiteDatabase
     val Table = "POSTS"
-    private val DATABASENAME = "SmartWorker.db"
+    private val DATABASENAME = "MyTask.db"
 
     @Throws(SQLException::class)
     fun insert(post: PostModel): Boolean {
@@ -21,14 +21,8 @@ class DbOperation_Post(context: Context?) {
         cv.put("id", post.id)
         cv.put("thumbnailUrl", post.thumbnailUrl)
         val inserted = db.insert(Table, null, cv)
-        return if (inserted > 0) {
-            true
-        } else {
-            false
-        }
+        return inserted > 0
     }
-
-
 
     @Throws(SQLException::class)
     fun Update(post: PostModel): Boolean {
@@ -42,11 +36,7 @@ class DbOperation_Post(context: Context?) {
             "ID=?",
             arrayOf(post.id.toString() + "")
         ).toLong()
-        return if (updated > 0) {
-            true
-        } else {
-            false
-        }
+        return updated > 0
     }
 
 
@@ -78,7 +68,7 @@ class DbOperation_Post(context: Context?) {
         val list: MutableList<PostModel> = ArrayList<PostModel>()
         while (!cursor.isAfterLast) {
             val postModel = PostModel()
-            postModel.setId(cursor.getInt(0))
+            postModel.id = cursor.getInt(0)
             postModel.title[1]
             postModel.thumbnailUrl[2]
             list.add(postModel)

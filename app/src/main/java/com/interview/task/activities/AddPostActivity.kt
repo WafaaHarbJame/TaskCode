@@ -45,29 +45,22 @@ class AddPostActivity : ActivityBase() {
 
         SavBtn.setOnClickListener {
 
-            if (PostTitleET.text.toString() == "") {
-                PostTitleET?.error = "Enter Post title "
+            if (PostTitleET.text.isNullOrEmpty()) {
+                PostTitleET.error = "Enter Post title"
                 PostTitleET.requestFocus()
-            }
-            else {
-
+            } else {
 
                 val post = PostModel()
-                post.title=PostTitleET.text.toString()
+                post.title = PostTitleET.text.toString()
                 val added: Boolean = db!!.insert(post)
                 if (added) {
-                    Toast.makeText(getActiviy()," Added Success", Toast.LENGTH_SHORT).show();
-
-
+                    Toast.makeText(getActiviy(), " Added Success", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(getActiviy(),"Failed to add ", Toast.LENGTH_SHORT).show();
-
-
+                    Toast.makeText(getActiviy(), "Failed to Add", Toast.LENGTH_SHORT).show()
                 }
 
 
             }
-
 
 
         }
