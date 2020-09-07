@@ -11,7 +11,7 @@ import java.sql.SQLException
 class DbOperation_Post(context: Context?) {
     var context: Context?
     var db: SQLiteDatabase
-    val Table = "USERS"
+    val Table = "POSTS"
     private val DATABASENAME = "SmartWorker.db"
 
     @Throws(SQLException::class)
