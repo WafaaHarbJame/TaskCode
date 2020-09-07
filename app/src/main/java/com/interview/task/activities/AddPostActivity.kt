@@ -12,24 +12,27 @@ import androidx.annotation.Nullable
 import com.interview.task.LocalDb.DbOperation_Post
 import com.interview.task.Model.PostModel
 import com.interview.task.R
+import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.android.synthetic.main.dialog_addpost.*
+import kotlinx.android.synthetic.main.dialog_addpost.postImage
+import kotlinx.android.synthetic.main.dialog_addpost.postTitleET
 
 class AddPostActivity : ActivityBase() {
-    private lateinit var CloseBut: ImageView
-    private lateinit var PostTitleET: EditText
-    private lateinit var PostImage: ImageView
-    private lateinit var SavBtn: Button
+//    private lateinit var CloseBut: ImageView
+//    private lateinit var PostTitleET: EditText
+//    private lateinit var PostImage: ImageView
+//    private lateinit var SavBtn: Button
     var db: DbOperation_Post? = null
     private val SELECT_PHOTO = 7777
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
-
-        PostTitleET = findViewById(R.id.postTitleET)
-        PostImage = findViewById(R.id.postImage)
-        SavBtn = findViewById(R.id.savBtn)
-
+//
+//        PostTitleET = findViewById(R.id.postTitleET)
+//        PostImage = findViewById(R.id.postImage)
+//        SavBtn = findViewById(R.id.savBtn)
+//
         db = DbOperation_Post(getActiviy())
 
         postImage.setOnClickListener {
@@ -43,18 +46,19 @@ class AddPostActivity : ActivityBase() {
 
 
 
-        SavBtn.setOnClickListener {
+        saveBtn.setOnClickListener {
 
-            if (PostTitleET.text.isNullOrEmpty()) {
-                PostTitleET.error = "Enter Post title"
-                PostTitleET.requestFocus()
+            if (postTitleET.text.isNullOrEmpty()) {
+                postTitleET.error = "Enter Post title"
+                postTitleET.requestFocus()
             } else {
 
                 val post = PostModel()
-                post.title = PostTitleET.text.toString()
+                post.title = postTitleET.text.toString()
+//                post.thumbnailUrl
                 val added: Boolean = db!!.insert(post)
                 if (added) {
-                    Toast.makeText(getActiviy(), " Added Success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(getActiviy(), getString(R.string.add_sucess), Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(getActiviy(), "Failed to Add", Toast.LENGTH_SHORT).show()
                 }
@@ -77,7 +81,7 @@ class AddPostActivity : ActivityBase() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == SELECT_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
             val pick_image: Uri? = data.data
-            PostImage.setImageURI(pick_image)
+            postImage.setImageURI(pick_image)
         }
     }
 }

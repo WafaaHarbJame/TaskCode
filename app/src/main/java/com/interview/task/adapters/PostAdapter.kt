@@ -15,10 +15,9 @@ import com.interview.task.activities.PostDetailsActivity
 import com.interview.task.classes.Constants
 
 
-class PostAdapter(postlist: ArrayList<PostModel>, activity: Activity) :
+class PostAdapter( var activity: Activity,var postList: MutableList<PostModel>?) :
         RecyclerView.Adapter<PostAdapter.PostHolder>() {
-        var postList: ArrayList<PostModel> = postlist
-        var activity: Activity = activity
+
     override fun onCreateViewHolder(
             viewGroup: ViewGroup,
             i: Int
@@ -32,27 +31,25 @@ class PostAdapter(postlist: ArrayList<PostModel>, activity: Activity) :
             i: Int)
         {
 
-            postHolder.title.text = postList[i].title
+            postHolder.title.text = postList!![i].title
 
         }
 
         override fun getItemCount(): Int {
-            return postList.size
+            return postList!!.size
         }
 
         inner class PostHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            var title: TextView
-            var  cardV:CardView
+            var title: TextView = itemView.findViewById(R.id.postTitleTv)
+            var  cardV:CardView = itemView.findViewById(R.id.cardV)
 
             init {
-                title = itemView.findViewById(R.id.postTitleTv)
-                cardV=itemView.findViewById(R.id.cardV)
 
                 cardV.setOnClickListener {
                     val position=adapterPosition;
                     val details = Intent(activity, PostDetailsActivity::class.java)
-                    details.putExtra(Constants.POST_IMAGE, postList[position].thumbnailUrl)
-                    details.putExtra(Constants.POST_TITLE, postList[position].title)
+                    details.putExtra(Constants.POST_IMAGE, postList!![position].thumbnailUrl)
+                    details.putExtra(Constants.POST_TITLE, postList!![position].title)
                     activity.startActivity(details)
                 }
             }
@@ -61,7 +58,7 @@ class PostAdapter(postlist: ArrayList<PostModel>, activity: Activity) :
         }
 
 
-    fun setPostListItems(postList:ArrayList<PostModel>){
+    fun setPostListItems(postList:MutableList<PostModel>){
         this.postList = postList;
         notifyDataSetChanged()
     }

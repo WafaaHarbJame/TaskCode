@@ -2,7 +2,6 @@ package com.interview.task.LocalDb
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.interview.task.Model.PostModel
 import java.sql.SQLException
@@ -18,7 +17,6 @@ class DbOperation_Post(context: Context?) {
     fun insert(post: PostModel): Boolean {
         val cv = ContentValues()
         cv.put("title", post.title)
-        cv.put("id", post.id)
         cv.put("thumbnailUrl", post.thumbnailUrl)
         val inserted = db.insert(Table, null, cv)
         return inserted > 0

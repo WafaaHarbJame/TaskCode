@@ -27,7 +27,7 @@ class MainActivity : ActivityBase() {
     private lateinit var addPost: FloatingActionButton
 
     private  lateinit var postAdapter: PostAdapter
-    var postList: ArrayList<PostModel> = ArrayList()
+    var postList: MutableList<PostModel>? = mutableListOf()
     var db: DbOperation_Post? = null
 
 
@@ -40,12 +40,11 @@ class MainActivity : ActivityBase() {
         swipeContainer = findViewById(R.id.swipe_container)
         addPost = findViewById(R.id.addPost)
 
-        postAdapter = PostAdapter(postList,this@MainActivity)
 
-        val llm = LinearLayoutManager(getActiviy())
-        llm.orientation = LinearLayoutManager.VERTICAL
-        recyclerPost.layoutManager = llm
 
+        recyclerPost.layoutManager = LinearLayoutManager(getActiviy())
+
+        postAdapter = PostAdapter(this,postList)
         recyclerPost.adapter = postAdapter
 
         checkInternet()
@@ -73,23 +72,28 @@ class MainActivity : ActivityBase() {
         swipeContainer.isRefreshing = true
         val apiService = getClient()!!.create(ApiInterface::class.java)
         val apiInterface = apiService.getPosts()
-        apiInterface.enqueue( object : Callback<List<PostModel>> {
+        apiInterface.enqueue( object : Callback<MutableList<PostModel>?> {
             override fun onResponse(
-                call: Call<List<PostModel>>?,
-                response: Response<List<PostModel>>?
+                call: Call<MutableList<PostModel>?>?,
+                response: Response<MutableList<PostModel>?>?
             ) {
 
-                if (response?.body() != null){
                     swipeContainer.isRefreshing=false
+                if (response?.isSuccessful == true){
+                    postList=response.body()
 
-                    postAdapter.setPostListItems(response.body() as ArrayList<PostModel>)
+                    if (postList!=null)
+                    {
+                        postAdapter.setPostListItems(postList!!)
+
+
+                    }
 
                 }
 
-
             }
 
-            override fun onFailure(call: Call<List<PostModel>>?, t: Throwable?) {
+            override fun onFailure(call: Call<MutableList<PostModel>?>?, t: Throwable?) {
 
             }
         })

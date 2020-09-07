@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface ApiInterface {
     @GET("photos")
-    fun getPosts():  Call<List<PostModel>>
+    fun getPosts():  Call<MutableList<PostModel>?>
 
 
 }
