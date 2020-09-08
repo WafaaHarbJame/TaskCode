@@ -60,14 +60,11 @@ class MainActivity : ActivityBase() {
             val add = Intent(getActiviy(), AddPostActivity::class.java)
             add.putExtra(Constants.EDIT_POST,false)
          startActivityForResult(add,addCode)
-
         }
 
 
 
-
     }
-
 
     private fun getPosts() {
         swipeContainer.isRefreshing = true
@@ -118,7 +115,6 @@ class MainActivity : ActivityBase() {
         })
     }
 
-
     private fun checkInternet() {
         val conMgr =
            getActiviy().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -145,7 +141,6 @@ class MainActivity : ActivityBase() {
 
         }
     }
-
 
     private  fun checkFirstRun() {
         var firstRun= sharedPManger?.getDataBool(Constants.FIRST_RUN)
@@ -175,7 +170,5 @@ class MainActivity : ActivityBase() {
             readPostLocal()
         }
     }
-
-
 
 }

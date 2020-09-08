@@ -19,9 +19,6 @@ class CreateOPenHelperSQL(
         db.execSQL("create table POSTS(id INTEGER  PRIMARY KEY AUTOINCREMENT,title TEXT,thumbnailUrl TEXT ,thumbnailImage BLOB,type INTEGER)")
            }
 
-
-
-
     override fun onUpgrade(
         db: SQLiteDatabase,
         oldVersion: Int,
