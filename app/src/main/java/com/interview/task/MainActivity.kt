@@ -31,7 +31,7 @@ class MainActivity : ActivityBase() {
     private  lateinit var postAdapter: PostAdapter
     var postList: MutableList<PostModel>? = mutableListOf()
     var db: DbOperation_Post? = null
-    var sharedPManger: SharedPManger? = null
+    private var sharedPManger: SharedPManger? = null
     private val editCode = 100
     private val addCode = 100
 
