@@ -20,7 +20,6 @@ import com.interview.task.activities.AddPostActivity
 import com.interview.task.adapters.PostAdapter
 import com.interview.task.classes.Constants
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_addpost.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
