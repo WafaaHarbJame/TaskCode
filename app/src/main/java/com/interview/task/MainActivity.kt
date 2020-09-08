@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.Nullable
@@ -42,7 +41,7 @@ class MainActivity : ActivityBase() {
 
         recyclerPost.layoutManager = LinearLayoutManager(getActiviy())
 
-        postAdapter = PostAdapter(this,postList)
+        postAdapter = PostAdapter(this,recyclerPost,postList)
         recyclerPost.adapter = postAdapter
         sharedPManger = SharedPManger(getActiviy())
 
@@ -78,28 +77,10 @@ class MainActivity : ActivityBase() {
 
                     if (postList!=null)
                     {
-
                         postAdapter.setPostListItems(postList!!)
-
-                        for (i in postList!!.indices) {
-
-                            val post = PostModel()
-                            post.title = postList!![i].title
-                            post.id= postList!![i].id
-                            post.thumbnailUrl=postList!![i].thumbnailUrl
-                            post.thumbnailImage=null
-                            post.type=1
-
-                            val added: Boolean = db!!.insert(post)
-                            if (added) {
-                                Log.d("add posts","Added"+ getString(R.string.add_success))
-                            } else {
-                                Log.d("add posts","not Added"+ getString(R.string.add_failed))
-                            }
-
-                        }
-
                     }
+
+                    saveDataLocal()
 
                 }
 
@@ -164,6 +145,33 @@ class MainActivity : ActivityBase() {
         if (requestCode == addCode && resultCode == Activity.RESULT_OK) {
             readPostLocal()
         }
+    }
+
+
+
+
+    fun saveDataLocal(){
+        if(postList!!.size>0){
+            for (i in postList!!.indices) {
+
+                val post = PostModel()
+                post.title = postList!![i].title
+                post.id= postList!![i].id
+                post.thumbnailUrl=postList!![i].thumbnailUrl
+                post.thumbnailImage=null
+                post.type=1
+
+                val added: Boolean = db!!.insert(post)
+                if (added) {
+                    Log.d("add posts","Added"+ getString(R.string.add_success))
+                } else {
+                    Log.d("add posts","not Added"+ getString(R.string.add_failed))
+                }
+
+            }
+
+        }
+
     }
 
 }

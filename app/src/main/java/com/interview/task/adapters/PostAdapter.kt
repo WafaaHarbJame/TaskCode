@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.Nullable
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.interview.task.LocalDb.DbOperation_Post
@@ -18,12 +18,17 @@ import com.interview.task.R
 import com.interview.task.activities.AddPostActivity
 import com.interview.task.activities.PostDetailsActivity
 import com.interview.task.classes.Constants
+import com.interview.task.classes.OnLoadMoreListener
 
 
-class PostAdapter( var activity: Activity,var postList: MutableList<PostModel>?) :
+class PostAdapter( var activity: Activity, val rv: RecyclerView, var postList: MutableList<PostModel>?) :
         RecyclerView.Adapter<PostAdapter.PostHolder>() {
     var db: DbOperation_Post? = DbOperation_Post(activity)
     private val editCode = 100
+    val VIEW_TYPE_ITEM = 1
+    val VIEW_TYPE_LOADING = 0
+    private var isLoading = false
+    var mOnLoadMoreListener: OnLoadMoreListener? = null
 
 
     override fun onCreateViewHolder(
@@ -94,13 +99,24 @@ class PostAdapter( var activity: Activity,var postList: MutableList<PostModel>?)
 
         }
 
+    internal inner class LoadingViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        var progressBar: ProgressBar = itemView.findViewById(R.id.progressBar1)
 
+    }
     fun setPostListItems(postList:MutableList<PostModel>){
         this.postList = postList;
         notifyDataSetChanged()
     }
 
 
+    fun setLoaded() {
+        isLoading = false
+    }
+
+    private fun setOnLoadMoreListener(mOnLoadMoreListener: OnLoadMoreListener?) {
+        this.mOnLoadMoreListener = mOnLoadMoreListener
+    }
 
 
 
