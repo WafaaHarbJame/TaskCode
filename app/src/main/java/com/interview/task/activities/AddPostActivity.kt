@@ -46,8 +46,7 @@ class AddPostActivity : ActivityBase() {
         val intent = intent
         if (intent != null) {
             editPost=intent.getBooleanExtra(Constants.EDIT_POST,false)
-            if(editPost)
-            {
+            if(editPost) {
                 val i = getIntent()
                 val post = i.getSerializableExtra(Constants.POST_OBJECT) as PostModel
                 postTitle =post.title
@@ -62,11 +61,11 @@ class AddPostActivity : ActivityBase() {
                 if(postType==1){
                     Glide.with(this)
                         .asBitmap()
-                        .load(postImage)
+                        .load(postPhoto)
                         .placeholder(R.drawable.ic_launcher_background)
                         .into(postImage);
                 }
-                else{
+                else if(postType==2) {
                     postImageBlob= post.thumbnailImage
                     postImage.setImageBitmap(Utile.getImage(postImageBlob))
 
@@ -74,6 +73,7 @@ class AddPostActivity : ActivityBase() {
 
 
             }
+
 
         }
 
@@ -127,13 +127,12 @@ class AddPostActivity : ActivityBase() {
                 post.id=postId
 
                 if(postType==1){
-                    post.thumbnailUrl= postPhoto
+                    post.thumbnailUrl= post.thumbnailUrl
                     post.type=1
                     post.thumbnailImage=null
 
                 }
                 else{
-                    val post = PostModel()
                     post.thumbnailImage= convertBitmapToByte()
                     post.type=2
                     post.thumbnailUrl=null

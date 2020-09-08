@@ -32,7 +32,7 @@ class MainActivity : ActivityBase() {
     var db: DbOperation_Post? = null
     private var sharedPManger: SharedPManger? = null
     private val editCode = 100
-    private val addCode = 100
+    private val addCode = 200
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {

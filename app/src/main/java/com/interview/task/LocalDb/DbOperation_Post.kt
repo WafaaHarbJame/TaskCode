@@ -31,6 +31,8 @@ class DbOperation_Post(context: Context?) {
         cv.put("title", post.title)
         cv.put("id", post.id)
         cv.put("thumbnailUrl", post.thumbnailUrl)
+        cv.put("thumbnailImage",post.thumbnailImage)
+        cv.put("type",post.type)
         val updated = db.update(
             Table,
             cv,

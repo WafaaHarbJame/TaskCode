@@ -51,9 +51,11 @@ class PostDetailsActivity : AppCompatActivity() {
                     postIv.setImageBitmap(Utile.getImage(postImageBlob))
 
             }
+
+            postTitleTv.text = postTitle
+
         }
 
-        postTitleTv.text = postTitle
 
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
