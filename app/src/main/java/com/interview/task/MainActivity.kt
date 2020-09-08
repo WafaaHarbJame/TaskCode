@@ -61,9 +61,6 @@ class MainActivity : ActivityBase() {
             add.putExtra(Constants.EDIT_POST,false)
          startActivityForResult(add,addCode)
         }
-
-
-
     }
 
     private fun getPosts() {
@@ -137,7 +134,6 @@ class MainActivity : ActivityBase() {
         } else {
 
             readPostLocal()
-
 
         }
     }
