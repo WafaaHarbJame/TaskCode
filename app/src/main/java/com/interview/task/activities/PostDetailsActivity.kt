@@ -1,40 +1,68 @@
 package com.interview.task.activities
 
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.interview.task.Model.PostModel
 import com.interview.task.R
+import com.interview.task.Utile
 import com.interview.task.classes.Constants
-import kotlinx.android.synthetic.main.row_post_item.*
+import kotlinx.android.synthetic.main.activity_add_post.*
+import kotlinx.android.synthetic.main.activity_post_deails.*
+import kotlinx.android.synthetic.main.row_post_item.postTitleTv
 
 
 class PostDetailsActivity : AppCompatActivity() {
-    private lateinit var PostTitleTv: TextView
-    private lateinit var PostIv: ImageView
-    var POST_TITLE: String? = null
-    var POST_IMAGE: String? = null
+    var postTitle: String? = null
+    private var postImage: String? = null
+    var postType: Int? = 0
+
+    lateinit var postImageBlob: ByteArray
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_deails)
 
-        PostTitleTv = findViewById(R.id.postTitleTv)
-        PostIv = findViewById(R.id.postIv)
+        setSupportActionBar(toolbar_details)
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.setHomeButtonEnabled(true)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         val intent = intent
         if (intent != null) {
-            POST_TITLE = intent.getStringExtra(Constants.POST_TITLE)
-            POST_IMAGE = intent.getStringExtra(Constants.POST_IMAGE)
+            val i = getIntent()
+            val post = i.getSerializableExtra(Constants.POST_OBJECT) as PostModel
+            postTitle = post.title
+            postType = post.type
 
+            if (postType == 1) {
+                postImage = post.thumbnailUrl
+                Glide.with(this)
+                    .asBitmap()
+                    .load(postImage)
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(postIv)
+
+            } else  if (postType == 2) {
+                postImageBlob =post.thumbnailImage
+                    postIv.setImageBitmap(Utile.getImage(postImageBlob))
+
+            }
         }
-        Glide
-            .with(this)
-            .asBitmap()
-            .load(POST_IMAGE)
-            .placeholder(R.drawable.ic_launcher_background)
-            .into(PostIv);
-        PostTitleTv.text = POST_TITLE
 
+        postTitleTv.text = postTitle
+
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.getItemId()) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

@@ -16,7 +16,7 @@ class CreateOPenHelperSQL(
 ) :
     SQLiteOpenHelper(context, name, factory, version) {
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL("create table POSTS(id INTEGER  PRIMARY KEY AUTOINCREMENT,title TEXT,thumbnailUrl BLOB)")
+        db.execSQL("create table POSTS(id INTEGER  PRIMARY KEY AUTOINCREMENT,title TEXT,thumbnailUrl TEXT ,thumbnailImage BLOB,type INTEGER)")
            }
 
 

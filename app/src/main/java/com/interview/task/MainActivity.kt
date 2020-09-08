@@ -1,64 +1,65 @@
 package com.interview.task
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import androidx.annotation.Nullable
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.interview.task.Api.ApiClient.getClient
 import com.interview.task.Api.ApiInterface
 import com.interview.task.LocalDb.DbOperation_Post
 import com.interview.task.Model.PostModel
+import com.interview.task.Utils.SharedPManger
 import com.interview.task.activities.ActivityBase
 import com.interview.task.activities.AddPostActivity
 import com.interview.task.adapters.PostAdapter
+import com.interview.task.classes.Constants
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_addpost.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
 class MainActivity : ActivityBase() {
-    private lateinit var recyclerPost: RecyclerView
-    private lateinit var swipeContainer: SwipeRefreshLayout
-    private lateinit var addPost: FloatingActionButton
 
     private  lateinit var postAdapter: PostAdapter
     var postList: MutableList<PostModel>? = mutableListOf()
     var db: DbOperation_Post? = null
-
+    var sharedPManger: SharedPManger? = null
+    private val editCode = 100
+    private val addCode = 100
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recyclerPost = findViewById(R.id.recyclerPost)
-        swipeContainer = findViewById(R.id.swipe_container)
-        addPost = findViewById(R.id.addPost)
-
-
 
         recyclerPost.layoutManager = LinearLayoutManager(getActiviy())
 
         postAdapter = PostAdapter(this,postList)
         recyclerPost.adapter = postAdapter
+        sharedPManger = SharedPManger(getActiviy())
 
-        checkInternet()
 
         db = DbOperation_Post(this)
 
         swipeContainer.setOnRefreshListener {
-            getPosts();
+            checkInternet()
         }
 
+        checkInternet()
 
         addPost.setOnClickListener {
-            val details = Intent(getActiviy(), AddPostActivity::class.java)
-            startActivity(details)
+            val add = Intent(getActiviy(), AddPostActivity::class.java)
+            add.putExtra(Constants.EDIT_POST,false)
+         startActivityForResult(add,addCode)
 
         }
 
@@ -84,8 +85,26 @@ class MainActivity : ActivityBase() {
 
                     if (postList!=null)
                     {
+
                         postAdapter.setPostListItems(postList!!)
 
+                        for (i in postList!!.indices) {
+
+                            val post = PostModel()
+                            post.title = postList!![i].title
+                            post.id= postList!![i].id
+                            post.thumbnailUrl=postList!![i].thumbnailUrl
+                            post.thumbnailImage=null
+                            post.type=1
+
+                            val added: Boolean = db!!.insert(post)
+                            if (added) {
+                                Log.d("add posts","Added"+ getString(R.string.add_success))
+                            } else {
+                                Log.d("add posts","not Added"+ getString(R.string.add_failed))
+                            }
+
+                        }
 
                     }
 
@@ -105,15 +124,57 @@ class MainActivity : ActivityBase() {
            getActiviy().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = conMgr.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {
-            getPosts()
+
+            var firstRun= sharedPManger?.getDataBool(Constants.FIRST_RUN)
+
+            if(firstRun==false){
+                sharedPManger!!.SetData(Constants.FIRST_RUN, true)
+                getPosts()
+
+            }
+            else{
+                readPostLocal()
+
+            }
+
+
         } else {
-            db!!.getAllPosts();
+
+            readPostLocal()
+
 
         }
     }
 
 
+    private  fun checkFirstRun() {
+        var firstRun= sharedPManger?.getDataBool(Constants.FIRST_RUN)
+        if(firstRun==false){
+            sharedPManger!!.SetData(Constants.FIRST_RUN, true)
+        }
+    }
 
+    private  fun readPostLocal() {
+        postList= db!!.getAllPosts()
+        swipeContainer.isRefreshing=false
+        postAdapter.setPostListItems(postList!!)
+        postList?.sortByDescending {it.id }
+
+
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        @Nullable data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == editCode && resultCode == Activity.RESULT_OK) {
+            readPostLocal()
+        }
+        if (requestCode == addCode && resultCode == Activity.RESULT_OK) {
+            readPostLocal()
+        }
+    }
 
 
 

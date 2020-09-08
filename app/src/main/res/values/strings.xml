@@ -2,5 +2,15 @@
     <string name="app_name">Task</string>
     <string name="invalid_post">Enter Post Title</string>
     <string name="postTitle">"Post Titile Reqired "</string>
-    <string name="add_sucess">Added Success</string>
+    <string name="add_success">Added Success</string>
+    <string name="add_failed">Failed to Add</string>
+    <string name="add_post">Add Post</string>
+    <string name="edit_post">Edit Post</string>
+    <string name="sent">Sent</string>
+    <string name="add_image">Upload Image</string>
+    <string name="post_details">Post Details</string>
+    <string name="edit_success">Edit Success</string>
+    <string name="edit_failed">Edit Failed</string>
+    <string name="deleted_sucess">Deleted Succes</string>
+
 </resources>

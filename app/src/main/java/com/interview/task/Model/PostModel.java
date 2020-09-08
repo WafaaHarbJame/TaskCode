@@ -1,6 +1,8 @@
 package com.interview.task.Model;
 
-public class PostModel {
+import java.io.Serializable;
+
+public class PostModel implements Serializable {
 
     /**
      * albumId : 1
@@ -15,6 +17,9 @@ public class PostModel {
     private String title;
     private String url;
     private String thumbnailUrl;
+    private int type;
+    byte[] thumbnailImage;
+
 
     public int getAlbumId() {
         return albumId;
@@ -22,6 +27,22 @@ public class PostModel {
 
     public void setAlbumId(int albumId) {
         this.albumId = albumId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public byte[] getThumbnailImage() {
+        return thumbnailImage;
+    }
+
+    public void setThumbnailImage(byte[] thumbnailImage) {
+        this.thumbnailImage = thumbnailImage;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getId() {

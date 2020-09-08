@@ -38,7 +38,7 @@ class AddPostDialog(
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.dialog_addpost)
-        postTitle = findViewById(R.id.postTitleET)
+        postTitle = findViewById(R.id.postTitleText)
         postImage = findViewById(R.id.postImage)
         savBtn = findViewById(R.id.savBtn)
 

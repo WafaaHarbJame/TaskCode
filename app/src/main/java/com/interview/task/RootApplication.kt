@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDex
 import com.interview.task.Utils.SharedPManger
-import java.util.*
 
 
 class RootApplication : Application() {
@@ -17,9 +16,6 @@ class RootApplication : Application() {
 
         var instance: RootApplication? = null
             private set
-        var changesMap: MutableMap<String, Any> =
-            HashMap()
-
 
         init {
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

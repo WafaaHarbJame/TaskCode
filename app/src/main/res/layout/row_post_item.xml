@@ -30,15 +30,7 @@
         android:layout_marginTop="@dimen/_16sdp"
         android:layout_gravity="center_vertical"
         android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/addBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginEnd="@dimen/_8sdp"
 
-            android:src="@drawable/ic_add"
-            android:layout_marginTop="5dp" />
         <ImageView
             android:id="@+id/editBtn"
             android:layout_width="wrap_content"

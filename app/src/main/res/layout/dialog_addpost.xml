@@ -36,7 +36,7 @@
     </LinearLayout>
     <EditText
         android:layout_width="match_parent"
-        android:id="@+id/postTitleET"
+        android:id="@+id/postTitleText"
         android:padding="@dimen/_10sdp"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
@@ -46,7 +46,7 @@
     </EditText>
    <TextView
        android:layout_width="match_parent"
-       android:text="add Image"
+       android:text="@string/add_image"
        android:gravity="center"
        android:textStyle="bold"
        android:textColor="@color/black"
