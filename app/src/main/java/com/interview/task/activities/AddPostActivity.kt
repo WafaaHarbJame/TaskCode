@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.appcompat.app.ActionBar
 import com.bumptech.glide.Glide
@@ -17,8 +16,6 @@ import com.interview.task.R
 import com.interview.task.Utile
 import com.interview.task.classes.Constants
 import kotlinx.android.synthetic.main.activity_add_post.*
-import kotlinx.android.synthetic.main.dialog_addpost.postImage
-import java.io.Serializable
 
 
 class AddPostActivity : ActivityBase() {
@@ -51,7 +48,6 @@ class AddPostActivity : ActivityBase() {
             editPost=intent.getBooleanExtra(Constants.EDIT_POST,false)
             if(editPost)
             {
-
                 val i = getIntent()
                 val post = i.getSerializableExtra(Constants.POST_OBJECT) as PostModel
                 postTitle =post.title
@@ -85,7 +81,6 @@ class AddPostActivity : ActivityBase() {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, SELECT_PHOTO)
-
         }
 
         saveBtn.setOnClickListener {
@@ -95,7 +90,7 @@ class AddPostActivity : ActivityBase() {
                 postTitleText.requestFocus()
             }
             else  if(!chooseImage!!){
-                Toast.makeText(getActiviy(), getString(R.string.choose_photo_using), Toast.LENGTH_SHORT).show()
+                Toast(getString(R.string.choose_photo_using))
 
             }
 
@@ -109,12 +104,13 @@ class AddPostActivity : ActivityBase() {
 
                 val added: Boolean = db!!.insert(post)
                 if (added) {
-                    Toast.makeText(getActiviy(), getString(R.string.add_success), Toast.LENGTH_SHORT).show()
+                    Toast(getString(R.string.add_success))
                     setResult(Activity.RESULT_OK, intent)
                     finish()
 
                 } else {
-                    Toast.makeText(getActiviy(), getString(R.string.add_failed), Toast.LENGTH_SHORT).show()
+                    Toast(getString(R.string.add_failed))
+
                 }
             }
 
@@ -145,12 +141,14 @@ class AddPostActivity : ActivityBase() {
 
                 val added: Boolean = db!!.Update(post)
                 if (added) {
-                    Toast.makeText(getActiviy(), getString(R.string.edit_success), Toast.LENGTH_SHORT).show()
+
+                    Toast(getString(R.string.edit_success))
                     setResult(Activity.RESULT_OK, intent)
                     finish()
 
                 } else {
-                    Toast.makeText(getActiviy(), getString(R.string.edit_failed), Toast.LENGTH_SHORT).show()
+                    Toast( getString(R.string.edit_failed))
+
                 }
 
             }

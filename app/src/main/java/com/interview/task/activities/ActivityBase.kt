@@ -40,17 +40,7 @@ open class ActivityBase : AppCompatActivity() {
         }
     }
 
-    fun showSoftKeyboard(activity: Activity) {
-        try {
-            val inputMethodManager: InputMethodManager = activity.getSystemService(
-                Activity.INPUT_METHOD_SERVICE
-            ) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(
-                activity.currentFocus!!.windowToken, 0
-            )
-        } catch (e: Exception) { //            e.printStackTrace();
-        }
-    }
+
 
 
 
