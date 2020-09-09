@@ -29,8 +29,8 @@ import retrofit2.Response
 
 class MainActivity : ActivityBase() {
 
-    private  lateinit var postAdapter: PostAdapter
-   public var postList: MutableList<PostModel>? = mutableListOf()
+    private lateinit var postAdapter: PostAdapter
+    public var postList: MutableList<PostModel>? = mutableListOf()
     var db: DbOperation_Post? = null
     private var sharedPManger: SharedPManger? = null
     private val editCode = 100
@@ -45,7 +45,7 @@ class MainActivity : ActivityBase() {
 
         recyclerPost.layoutManager = LinearLayoutManager(getActiviy())
 
-        postAdapter = PostAdapter(this,recyclerPost,postList)
+        postAdapter = PostAdapter(this, recyclerPost, postList)
         recyclerPost.adapter = postAdapter
         sharedPManger = SharedPManger(getActiviy())
 
@@ -60,8 +60,8 @@ class MainActivity : ActivityBase() {
 
         addPost.setOnClickListener {
             val add = Intent(getActiviy(), AddPostActivity::class.java)
-            add.putExtra(Constants.EDIT_POST,false)
-         startActivityForResult(add,addCode)
+            add.putExtra(Constants.EDIT_POST, false)
+            startActivityForResult(add, addCode)
         }
     }
 
@@ -69,23 +69,22 @@ class MainActivity : ActivityBase() {
         swipeContainer.isRefreshing = true
         val apiService = getClient()!!.create(ApiInterface::class.java)
         val apiInterface = apiService.getPosts()
-        apiInterface.enqueue( object : Callback<MutableList<PostModel>?> {
+        apiInterface.enqueue(object : Callback<MutableList<PostModel>?> {
             override fun onResponse(
                 call: Call<MutableList<PostModel>?>?,
                 response: Response<MutableList<PostModel>?>?
             ) {
 
-                    swipeContainer.isRefreshing=false
-                if (response?.isSuccessful == true){
-                    postList=response.body()
+                swipeContainer.isRefreshing = false
+                if (response?.isSuccessful == true) {
+                    postList = response.body()
 
-                    if (postList!=null)
-                    {
+                    if (postList != null) {
                         postAdapter.setPostListItems(postList!!)
                     }
-                    MyAssyn().execute(saveDataLocal())
+                    MyTask().execute()
 
-                   // saveDataLocal()
+                    // saveDataLocal()
 
                 }
 
@@ -99,18 +98,17 @@ class MainActivity : ActivityBase() {
 
     private fun checkInternet() {
         val conMgr =
-           getActiviy().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            getActiviy().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = conMgr.activeNetworkInfo
         if (networkInfo != null && networkInfo.isConnected) {
 
-            var firstRun= sharedPManger?.getDataBool(Constants.FIRST_RUN)
+            val firstRun = sharedPManger?.getDataBool(Constants.FIRST_RUN)
 
-            if(firstRun==false){
+            if (firstRun == false) {
                 sharedPManger!!.SetData(Constants.FIRST_RUN, true)
                 getPosts()
 
-            }
-            else{
+            } else {
                 readPostLocal()
 
             }
@@ -123,32 +121,33 @@ class MainActivity : ActivityBase() {
         }
     }
 
-    private  fun checkFirstRun() {
-        var firstRun= sharedPManger?.getDataBool(Constants.FIRST_RUN)
-        if(firstRun==false){
+    private fun checkFirstRun() {
+        val firstRun = sharedPManger?.getDataBool(Constants.FIRST_RUN)
+        if (firstRun == false) {
             sharedPManger!!.SetData(Constants.FIRST_RUN, true)
         }
     }
 
-    private  fun readPostLocal() {
-        postList= db!!.getAllPosts()
-        swipeContainer.isRefreshing=false
-        if(postList!!.isNotEmpty()){
-            postAdapter.setPostListItems(postList!!)
-            postList?.sortByDescending {it.id }
+    private fun readPostLocal() {
 
-        }
-        else{
+        postList = db!!.getAllPosts()
+
+        swipeContainer.isRefreshing = false
+        if (postList!!.isNotEmpty()) {
+            postAdapter.setPostListItems(postList!!)
+            postList?.sortByDescending { it.id }
+
+        } else {
             getPosts()
         }
-
 
     }
 
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
-        @Nullable data: Intent?) {
+        @Nullable data: Intent?
+    ) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == editCode && resultCode == Activity.RESULT_OK) {
             readPostLocal()
@@ -159,48 +158,49 @@ class MainActivity : ActivityBase() {
     }
 
 
-    class  MyAssyn : AsyncTask<Any, Any, Any>() {
+    inner class MyTask() : AsyncTask<Void, Void, Boolean>() {
+        override fun doInBackground(vararg params: Void?): Boolean? {
+            // ...
+            return saveDataLocal()
+        }
 
         override fun onPreExecute() {
             super.onPreExecute()
+            // ...
         }
 
-        override fun doInBackground(vararg params: Any?) {
-           // saveDataLocal()
-        }
-
-
-        override fun onPostExecute(result: Any?) {
+        override fun onPostExecute(result: Boolean?) {
             super.onPostExecute(result)
+            if (result == true) {
+                Log.d("add posts", "Added" + getString(R.string.add_success))
+            } else {
+                Log.d("add posts", "not Added" + getString(R.string.add_failed))
+            }
+            // ...
         }
-
     }
 
 
-
-
-    fun saveDataLocal(){
-        if(postList!!.size>0){
+    fun saveDataLocal(): Boolean {
+        var isAllSuccess = false
+        if (postList!!.size > 0) {
             for (i in postList!!.indices) {
 
                 val post = PostModel()
                 post.title = postList!![i].title
-                post.id= postList!![i].id
-                post.thumbnailUrl=postList!![i].thumbnailUrl
-                post.thumbnailImage=null
-                post.type=1
+                post.id = postList!![i].id
+                post.thumbnailUrl = postList!![i].thumbnailUrl
+                post.thumbnailImage = null
+                post.type = 1
 
-                val added: Boolean = db!!.insert(post)
-                if (added) {
-                    Log.d("add posts","Added"+ getString(R.string.add_success))
-                } else {
-                    Log.d("add posts","not Added"+ getString(R.string.add_failed))
-                }
-
+                isAllSuccess = db!!.insert(post)
+                if (!isAllSuccess)
+                    break
             }
 
         }
 
+        return isAllSuccess
     }
 
     override fun onResume() {
