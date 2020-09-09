@@ -42,7 +42,6 @@ class AddPostActivity : ActivityBase() {
         actionBar?.setHomeButtonEnabled(true)
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-
         val intent = intent
         if (intent != null) {
             editPost=intent.getBooleanExtra(Constants.EDIT_POST,false)
