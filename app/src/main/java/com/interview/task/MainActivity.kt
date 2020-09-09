@@ -133,8 +133,14 @@ class MainActivity : ActivityBase() {
     private  fun readPostLocal() {
         postList= db!!.getAllPosts()
         swipeContainer.isRefreshing=false
-        postAdapter.setPostListItems(postList!!)
-        postList?.sortByDescending {it.id }
+        if(postList!!.isNotEmpty()){
+            postAdapter.setPostListItems(postList!!)
+            postList?.sortByDescending {it.id }
+
+        }
+        else{
+            getPosts()
+        }
 
 
     }
@@ -196,26 +202,11 @@ class MainActivity : ActivityBase() {
         }
 
     }
-    private fun initScrollListener() {
-        recyclerPost.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-            }
 
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val linearLayoutManager =
-                    recyclerView.layoutManager as LinearLayoutManager?
-                if (!isLoading) {
-                    if (linearLayoutManager != null
-                        && linearLayoutManager.findLastCompletelyVisibleItemPosition() == postList!!.size - 1) {
-                        //bottom of list!
-                      //  loadMore()
-                        isLoading = true
-                    }
-                }
-            }
-        })
+    override fun onResume() {
+        super.onResume()
+//        MyAssyn().execute(saveDataLocal())
+
     }
 
 }
