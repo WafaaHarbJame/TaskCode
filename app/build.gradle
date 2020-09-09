@@ -22,6 +22,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -69,7 +73,7 @@ dependencies {
     implementation 'com.duolingo.open:rtl-viewpager:2.0.0'
     implementation 'com.aminography:choosephotohelper:1.0.5'
     implementation 'com.github.blennerSilva:AwesomeDialog:2.0.6'
-    implementation "com.squareup.picasso:picasso:2.5.2"
+    implementation "com.squareup.picasso:picasso:2.71828"
 
 
 
