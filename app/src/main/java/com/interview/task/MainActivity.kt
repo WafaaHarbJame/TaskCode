@@ -5,10 +5,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.annotation.Nullable
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.interview.task.Api.ApiClient.getClient
 import com.interview.task.Api.ApiInterface
 import com.interview.task.LocalDb.DbOperation_Post
@@ -27,11 +30,12 @@ import retrofit2.Response
 class MainActivity : ActivityBase() {
 
     private  lateinit var postAdapter: PostAdapter
-    var postList: MutableList<PostModel>? = mutableListOf()
+   public var postList: MutableList<PostModel>? = mutableListOf()
     var db: DbOperation_Post? = null
     private var sharedPManger: SharedPManger? = null
     private val editCode = 100
     private val addCode = 200
+    var isLoading = false
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,8 +83,9 @@ class MainActivity : ActivityBase() {
                     {
                         postAdapter.setPostListItems(postList!!)
                     }
+                    MyAssyn().execute(saveDataLocal())
 
-                    saveDataLocal()
+                   // saveDataLocal()
 
                 }
 
@@ -148,6 +153,24 @@ class MainActivity : ActivityBase() {
     }
 
 
+    class  MyAssyn : AsyncTask<Any, Any, Any>() {
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+        override fun doInBackground(vararg params: Any?) {
+           // saveDataLocal()
+        }
+
+
+        override fun onPostExecute(result: Any?) {
+            super.onPostExecute(result)
+        }
+
+    }
+
+
 
 
     fun saveDataLocal(){
@@ -172,6 +195,27 @@ class MainActivity : ActivityBase() {
 
         }
 
+    }
+    private fun initScrollListener() {
+        recyclerPost.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val linearLayoutManager =
+                    recyclerView.layoutManager as LinearLayoutManager?
+                if (!isLoading) {
+                    if (linearLayoutManager != null
+                        && linearLayoutManager.findLastCompletelyVisibleItemPosition() == postList!!.size - 1) {
+                        //bottom of list!
+                      //  loadMore()
+                        isLoading = true
+                    }
+                }
+            }
+        })
     }
 
 }
