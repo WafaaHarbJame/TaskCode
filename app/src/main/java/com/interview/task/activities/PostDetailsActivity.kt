@@ -15,11 +15,11 @@ import kotlinx.android.synthetic.main.row_post_item.postTitleTv
 
 
 class PostDetailsActivity : AppCompatActivity() {
-    var postTitle: String? = null
+    private var postTitle: String? = null
     private var postImage: String? = null
-    var postType: Int? = 0
+    private var postType: Int? = 0
 
-    lateinit var postImageBlob: ByteArray
+    private lateinit var postImageBlob: ByteArray
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +59,7 @@ class PostDetailsActivity : AppCompatActivity() {
 
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.getItemId()) {
+        return when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 true

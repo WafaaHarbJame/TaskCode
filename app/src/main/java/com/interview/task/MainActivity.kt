@@ -42,9 +42,7 @@ class MainActivity : ActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         recyclerPost.layoutManager = LinearLayoutManager(getActiviy())
-
         postAdapter = PostAdapter(this, recyclerPost, postList)
         recyclerPost.adapter = postAdapter
         sharedPManger = SharedPManger(getActiviy())
@@ -83,8 +81,6 @@ class MainActivity : ActivityBase() {
                         postAdapter.setPostListItems(postList!!)
                     }
                     MyTask().execute()
-
-                    // saveDataLocal()
 
                 }
 
@@ -172,13 +168,11 @@ class MainActivity : ActivityBase() {
         override fun onPostExecute(result: Boolean?) {
             super.onPostExecute(result)
             if (result == true) {
-                Toast("All Posts Added")
-//                Log.d("add posts", "Added" + getString(R.string.add_success))
+                Log.d("add posts", "Added" + getString(R.string.add_success))
             } else {
-                Toast("All Posts Not Add")
-//                Log.d("add posts", "not Added" + getString(R.string.add_failed))
+                Log.d("add posts", "not Added" + getString(R.string.add_failed))
             }
-            // ...
+
         }
     }
 
@@ -206,10 +200,6 @@ class MainActivity : ActivityBase() {
         return isAllSuccess
     }
 
-    override fun onResume() {
-        super.onResume()
-//        MyAssyn().execute(saveDataLocal())
 
-    }
 
 }

@@ -77,6 +77,40 @@ class AddPostActivity : ActivityBase() {
 
         }
 
+        initListeners()
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        @Nullable data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == SELECT_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
+            val pickImage: Uri? = data.data
+            postImage.setImageURI(pickImage)
+            chooseImage=true
+
+        }
+
+    }
+
+    private fun convertBitmapToByte(): ByteArray? {
+        val bitmap = (postImage.drawable as BitmapDrawable).bitmap
+        return Utile.getbyte(bitmap)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+    }
+
+    fun initListeners(){
         postImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
@@ -153,35 +187,8 @@ class AddPostActivity : ActivityBase() {
             }
 
         }
-    }
 
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        @Nullable data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SELECT_PHOTO && resultCode == Activity.RESULT_OK && data != null) {
-            val pickImage: Uri? = data.data
-            postImage.setImageURI(pickImage)
-            chooseImage=true
 
-        }
-
-    }
-
-    fun convertBitmapToByte(): ByteArray? {
-        val bitmap = (postImage.getDrawable() as BitmapDrawable).bitmap
-        return Utile.getbyte(bitmap)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.getItemId()) {
-            android.R.id.home -> {
-                finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
 
