@@ -109,7 +109,7 @@ class AddPostActivity : ActivityBase() {
 
     }
 
-    fun initListeners(){
+    private fun initListeners(){
         postImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
