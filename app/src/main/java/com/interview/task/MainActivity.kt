@@ -172,9 +172,11 @@ class MainActivity : ActivityBase() {
         override fun onPostExecute(result: Boolean?) {
             super.onPostExecute(result)
             if (result == true) {
-                Log.d("add posts", "Added" + getString(R.string.add_success))
+                Toast("All Posts Added")
+//                Log.d("add posts", "Added" + getString(R.string.add_success))
             } else {
-                Log.d("add posts", "not Added" + getString(R.string.add_failed))
+                Toast("All Posts Not Add")
+//                Log.d("add posts", "not Added" + getString(R.string.add_failed))
             }
             // ...
         }
@@ -196,6 +198,7 @@ class MainActivity : ActivityBase() {
                 isAllSuccess = db!!.insert(post)
                 if (!isAllSuccess)
                     break
+
             }
 
         }
